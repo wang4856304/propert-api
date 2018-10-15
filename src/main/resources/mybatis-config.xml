@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <typeAliases>
+        <typeAlias type="com.happy.entity.bo.OrderBo" alias="orderBo"/>
+        <typeAlias type="com.happy.entity.bo.RoomBo" alias="roomBo"/>
+        <typeAlias type="com.happy.entity.po.RoomPo" alias="roomPo"/>
+        <typeAlias type="com.happy.entity.bo.SequenceBo" alias="sequenceBo"/>
+        <typeAlias type="com.happy.entity.po.RoomCostConfigPo" alias="roomCostConfigPo"/>
+        <typeAlias type="com.happy.entity.po.LayerPo" alias="layerPo"/>
+        <typeAlias type="com.happy.entity.po.UnitPo" alias="unitPo"/>
+        <typeAlias type="com.happy.entity.po.FloorPo" alias="floorPo"/>
+        <typeAlias type="com.happy.entity.po.CommunityPo" alias="communityPo"/>
+    </typeAliases>
+
+
+</configuration>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Room">
+    <select id="getDefaultBindRoom" parameterType="string" resultType="string">
+        select room_id from customer_room where customer_id=#{customerId} and is_default=1
+    </select>
+
+    <select id="getRoomList" parameterType="string" resultType="string">
+        select room_id from customer_room where customer_id=#{customerId}
+    </select>
+
+    <select id="getRoomById" parameterType="string" resultType="roomPo">
+        select room_name roomName, layer_name layerName, unit_name unitName, floor_name floorName, community_name communityName,
+        province, city, address from room r, layer l, unit u, floor f, community c where room_id=#{roomId} and r.layer_id=l.layer_id
+        and l.unit_id=u.unit_id and u.floor_id=f.floor_id and f.community_id=c.community_id
+    </select>
+
+    <update id="updateDefaultBindRoom" parameterType="roomBo">
+        update customer_room set is_default=1 where customer_id=#{customer_id} and room_id=#{roomId}
+    </update>
+
+    <update id="updateOtherRoomDefault" parameterType="roomBo">
+        update customer_room set is_default=0 where customer_id=#{customer_id} and room_id!=#{roomId}
+    </update>
+
+    <insert id="bindRoom" parameterType="roomBo">
+        insert into customer_room(id, customer_id, room_id, is_default) value(#{id}, #{customerId}, #{roomId}, 1)
+    </insert>
+    
+    <delete id="deleteBindRoom" parameterType="roomBo">
+        delete from customer_room where customer_id=#{customer_id} and room_id=#{roomId}
+    </delete>
+
+    <select id="getRoomListByLayerId" parameterType="string" resultType="roomPo">
+        select room_id roomId, room_name roomName from room where layer_id=#{layerId}
+    </select>
+
+    <select id="getRoomListByIds" parameterType="roomBo" resultType="roomPo">
+        select room_id roomId, room_name roomName from room r, layer l, unit u, floor f, community c
+        where r.layer_id=l.layer_id and l.unit_id=u.unit_id and u.floor_id=f.floor_id and f.community_id=c.community_id
+        and l.layer_id=#{layerId} and u.unit_id=#{unitId} and f.floor_id=#{floorId} and c.community_id=#{communityId}
+    </select>
+
+    <select id="getOwnerByNameAndId" parameterType="roomBo" resultType="roomPo">
+        select r.owner_id ownerId from room r, owner o
+        where r.owner_id=o.owner_id and r.room_id=#{roomId} and o.owner_name=#{ownerName}
+    </select>
+</mapper>
