@@ -25,4 +25,5 @@ public interface RoomDao {
     List<RoomPo> getRoomListByLayerId(String layerId);
     List<RoomPo> getRoomListByIds(RoomBo roomBo);
     RoomPo getOwnerByNameAndId(RoomBo roomBo);
+    List<RoomPo> getUserRoomList(String customerId);
 }

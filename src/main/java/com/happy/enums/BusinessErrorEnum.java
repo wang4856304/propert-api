@@ -10,7 +10,8 @@ package com.happy.enums;
 public enum BusinessErrorEnum {
 
     NO_COMMUNITY_ERROR("3005", "小区不存在"),
-    OWNER_ERROR("3006", "房间与房主不匹配");
+    OWNER_ERROR("3006", "房间与房主不匹配"),
+    REPEAT_BIND_ROOM_ERROR("3007", "房间已绑定");
 
 
 

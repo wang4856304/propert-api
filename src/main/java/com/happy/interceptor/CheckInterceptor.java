@@ -51,8 +51,8 @@ public class CheckInterceptor implements HandlerInterceptor {
                 return false;
             }
             else {
-                String customerId = redisService.get(token);
-                customerId = "123";
+                //String customerId = redisService.get(token);
+                String customerId = "123";
                 if (StringUtils.isEmpty(customerId)) {
                     Response response = buildErrorResponse(ErrorEnum.TOKEN_INVALID_ERROR.getCode(), ErrorEnum.TOKEN_INVALID_ERROR.getMsg());
                     httpServletResponse.setCharacterEncoding("UTF-8");

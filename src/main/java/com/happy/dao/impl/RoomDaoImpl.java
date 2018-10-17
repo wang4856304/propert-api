@@ -68,4 +68,9 @@ public class RoomDaoImpl extends BaseDao implements RoomDao {
     public RoomPo getOwnerByNameAndId(RoomBo roomBo) {
         return masterSqlSessionTemplate.selectOne("Room.getOwnerByNameAndId", roomBo);
     }
+
+    @Override
+    public List<RoomPo> getUserRoomList(@Param("customerId") String customerId) {
+        return masterSqlSessionTemplate.selectList("Room.getUserRoomList", customerId);
+    }
 }

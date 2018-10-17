@@ -15,5 +15,7 @@ public interface RoomService {
     Response getDefaultRoom(String token);
     Response getRoomListByIds(String communityId, String floorId, String unitId, String layerId);
     Response checkRoomOwner(String roomId, String ownerName);
-    Response bindRoom(String roomId, String customerId);
+    Response bindRoom(String roomId, String token);
+    Response getUserRoomList(String token);
+    Response setDefaultRoom(String roomId, String token);
 }

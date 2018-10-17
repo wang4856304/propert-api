@@ -16,15 +16,15 @@
     </select>
 
     <update id="updateDefaultBindRoom" parameterType="roomBo">
-        update customer_room set is_default=1 where customer_id=#{customer_id} and room_id=#{roomId}
+        update customer_room set is_default=1 where customer_id=#{customerId} and room_id=#{roomId}
     </update>
 
     <update id="updateOtherRoomDefault" parameterType="roomBo">
-        update customer_room set is_default=0 where customer_id=#{customer_id} and room_id!=#{roomId}
+        update customer_room set is_default=0 where customer_id=#{customerId} and room_id!=#{roomId}
     </update>
 
     <insert id="bindRoom" parameterType="roomBo">
-        insert into customer_room(id, customer_id, room_id, is_default) value(#{id}, #{customerId}, #{roomId}, 1)
+        insert into customer_room(customer_id, room_id, is_default) value(#{customerId}, #{roomId}, 1)
     </insert>
     
     <delete id="deleteBindRoom" parameterType="roomBo">
@@ -44,5 +44,13 @@
     <select id="getOwnerByNameAndId" parameterType="roomBo" resultType="roomPo">
         select r.owner_id ownerId from room r, owner o
         where r.owner_id=o.owner_id and r.room_id=#{roomId} and o.owner_name=#{ownerName}
+    </select>
+
+    <select id="getUserRoomList" parameterType="string" resultType="roomPo">
+        select o.owner_name ownerName, o.telephone, r.room_id roomId, r.room_name roomName, r.acreage, cr.is_default isDefault, l.layer_name layerName, u.unit_name unitName,
+        f.floor_name floorName, cu.community_name communityName, r.acreage, co.company_name companyName, co.telephone companyTel from
+        owner o, room r, layer l, unit u, floor f, community cu, company co, customer_room cr where r.owner_id=o.owner_id and r.layer_id=l.layer_id
+        and l.unit_id=u.unit_id and u.floor_id=f.floor_id and f.community_id=cu.community_id and cu.belong_company_id=co.company_id
+        and cr.room_id=r.room_id and r.room_id in(select room_id from customer_room where customer_id=#{customerId})
     </select>
 </mapper>

@@ -25,8 +25,8 @@ public class RoomController extends BaseController {
     }
 
     @RequestMapping("/bindRoom")
-    public Object bindRoom(@RequestHeader("token") String token) {
-        return buildResponse(roomService.getDefaultRoom(token));
+    public Object bindRoom(@RequestHeader("token") String token, String roomId) {
+        return buildResponse(roomService.bindRoom(roomId, token));
     }
 
     @RequestMapping("/getRoomListByIds")
@@ -38,5 +38,15 @@ public class RoomController extends BaseController {
     @RequestMapping("/checkRoomOwner")
     public Object checkRoomOwner(@RequestParam String roomId, @RequestParam String ownerName) {
         return buildResponse(roomService.checkRoomOwner(roomId, ownerName));
+    }
+
+    @RequestMapping("/getUserRoomList")
+    public Object getUserRoomList(@RequestHeader("token") String token) {
+        return buildResponse(roomService.getUserRoomList(token));
+    }
+
+    @RequestMapping("/setDefaultRoom")
+    public Object setDefaultRoom(@RequestHeader("token") String token, String roomId) {
+        return buildResponse(roomService.setDefaultRoom(roomId, token));
     }
 }

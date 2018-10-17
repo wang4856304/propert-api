@@ -18,4 +18,8 @@ public class BaseDao {
     @Autowired
     @Qualifier("masterSqlSessionTemplate")
     protected SqlSessionTemplate masterSqlSessionTemplate;
+
+    @Autowired
+    @Qualifier("masterMSSqlSessionTemplate")
+    protected SqlSessionTemplate masterMSSqlSessionTemplate;
 }

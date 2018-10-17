@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="http://www.happyhome.org.cn/layui/jquery-3.3.1.min.js"></script>
+
+    <script>
+        function loginIn() {
+
+            var username = '铁安花园';
+            var pwd = '40bd001563085fc35165329ea1ff5c5ecbdbbeef';
+            //var pc_token = $.cookie("pc_token");
+
+            //console.log("---" + username)
+            //console.log(pwd)
+            //	 POST /manager/login
+            var loginurl = "http://localhost:9810/test/hello";
+
+            //var ip = returnCitySN.cip;
+
+            //console.log('ip==' + ip)
+
+            $.ajax({
+                type: "post",
+                url: loginurl,
+                async: true,
+                data: {
+                    "userName": decodeURI(username),
+                    "passWord": pwd
+                },
+                success: function(data) {
+
+                    console.log(JSON.stringify(data))
+
+                    if(data.code == 0) {
+                        $.cookie("pc_token", data.msg, {
+                            expires: 30,
+                            path: '/',
+                            secure: false
+                        })
+                        window.sessionStorage.clear();
+                        window.localStorage.clear();
+                        setTimeout(function() {
+                            console.log("success");
+                        }, 1000);
+
+                    } else if(data.code == 41700) {
+
+                        layui.use('layer', function() {
+                            var layer = layui.layer;
+
+                            layer.msg("褰撳墠鐢ㄦ埛宸茶鍐荤粨锛岃鍙婃椂鑱旂郴绠＄悊鍛�");
+
+                        });
+                    } else if(data.code == 41500) {
+                        layui.use('layer', function() {
+                            var layer = layui.layer;
+
+                            layer.msg("璐﹀彿鎴栧瘑鐮侀敊璇�");
+
+                        });
+                    }
+                },
+                err: function(err) {
+                    if(err.status == 302) {
+                        var flag = confirm("鐧诲綍宸茶繃鏈燂紝璇烽噸鏂扮櫥褰曪紒")
+                        if(flag == true) {
+                            window.parent.location.href = "http://www.happyhome.org.cn/pc_home/login/login.html";
+                        }
+                    }
+
+                }
+            });
+
+        }
+    </script>
+</head>
+<body>
+    <input type="button" value="点击" onclick="loginIn()">
+</body>
+</html>

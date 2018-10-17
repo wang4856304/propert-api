@@ -8,7 +8,9 @@ import com.happy.enums.BusinessErrorEnum;
 import com.happy.service.BaseService;
 import com.happy.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -28,7 +30,7 @@ public class RoomServiceImpl extends BaseService implements RoomService {
 
     @Override
     public Response getDefaultRoom(String token) {
-        String customerId="460901004080357376";
+        String customerId="123";
         String roomId = roomDao.getDefaultBindRoom(customerId);
         RoomPo roomPo = roomDao.getRoomById(roomId);
         return buildSuccesResponse(roomPo);
@@ -58,12 +60,38 @@ public class RoomServiceImpl extends BaseService implements RoomService {
     }
 
     @Override
-    public Response bindRoom(String roomId, String customerId) {
+    @Transactional
+    public Response bindRoom(String roomId, String token) {
+        try {
+            String customerId = "123";
+            RoomBo roomBo = new RoomBo();
+            roomBo.setCustomerId(customerId);
+            roomBo.setRoomId(roomId);
+            roomDao.bindRoom(roomBo);
+            roomDao.updateOtherRoomDefault(roomBo);
+        }catch (DuplicateKeyException e) {
+            return buildErrorResponse(BusinessErrorEnum.REPEAT_BIND_ROOM_ERROR.getCode(), BusinessErrorEnum.REPEAT_BIND_ROOM_ERROR.getMsg());
+        }
+
+        return buildSuccesResponse();
+    }
+
+    @Override
+    public Response getUserRoomList(String token) {
+        String customerId = "123";
+        List<RoomPo> roomPos = roomDao.getUserRoomList(customerId);
+        return buildSuccesResponse(roomPos);
+    }
+
+    @Override
+    @Transactional
+    public Response setDefaultRoom(String roomId, String token) {
+        String customerId = "123";
         RoomBo roomBo = new RoomBo();
-        roomBo.setCustomerId("");
         roomBo.setCustomerId(customerId);
         roomBo.setRoomId(roomId);
-        roomDao.bindRoom(roomBo);
+        roomDao.updateDefaultBindRoom(roomBo);
+        roomDao.updateOtherRoomDefault(roomBo);
         return buildSuccesResponse();
     }
 }

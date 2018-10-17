@@ -88,4 +88,29 @@ public class RoomPo {
      * 拥有人编号
      */
     private String ownerId;
+
+    /**
+     * 拥有人名字
+     */
+    private String ownerName;
+
+    /**
+     * 拥有人电话
+     */
+    private String telephone;
+
+    /**
+     * 物业公司名称
+     */
+    private String companyName;
+
+    /**
+     * 物业公司电话
+     */
+    private String companyTel;
+
+    /**
+     * 是否默认绑定房间
+     */
+    private int isDefault;
 }

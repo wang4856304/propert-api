@@ -50,6 +50,7 @@ public class ControllerAdvice {
                 response.setCode(code);
             }
             response.setMsg(businessException.getMessage());
+            response.setServerTime(DateUtil.formartDate(new Date(), DateUtil.YYYY_MM_DD_HH_MM_SS));
         }
         //get请求参数校验异常处理
         else if (ex instanceof ValidationException) {
@@ -69,7 +70,8 @@ public class ControllerAdvice {
         }
         else {
             response.setCode(code);
-            response.setMsg(ex.getMessage());
+            response.setMsg("系统错误");
+            response.setServerTime(DateUtil.formartDate(new Date(), DateUtil.YYYY_MM_DD_HH_MM_SS));
         }
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);

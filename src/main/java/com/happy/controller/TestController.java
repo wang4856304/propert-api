@@ -24,12 +24,12 @@ public class TestController extends BaseController {
 
     @RequestMapping("/test")
     public Object test(@RequestBody JSONObject jsonObject) {
-        return null;
+        return jsonObject;
     }
 
     @RequestMapping("/hello")
-    public Object hello(@RequestParam String name) {
-        String result = redisService.get(name);
-        return result;
+    public Object hello(@RequestParam String userName) {
+        //String result = redisService.get(name);
+        return userName;
     }
 }

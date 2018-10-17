@@ -8,6 +8,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Enumeration;
 
 /**
  * @author wangjun
@@ -22,13 +23,25 @@ public class HttpLogInterceptor implements HandlerInterceptor {
         String url = httpServletRequest.getRequestURL().toString();
         String queryString = httpServletRequest.getQueryString();
         String methodName = httpServletRequest.getMethod();
+        String contentType = httpServletRequest.getHeader("Content-Type");
         if (StringUtils.isEmpty(queryString)) {
+            Enumeration<String> params = httpServletRequest.getParameterNames();
+            if (params.hasMoreElements()) {
+                StringBuffer sb = new StringBuffer();
+                while (params.hasMoreElements()) {
+                    String paramName = params.nextElement();
+                    String value = httpServletRequest.getParameter(paramName);
+                    sb.append(paramName).append("=").append(value).append("&");
+                }
+                logger.info("request url=" + url + ", method=" + methodName + " ,contentType=" + contentType + ", param: " + sb.toString().substring(0, sb.toString().length()-1));
+                return true;
+            }
             String data = new BodyReaderHttpServletRequestWrapper(httpServletRequest).getBodyString(httpServletRequest);
             if (StringUtils.isEmpty(data)) {
-                logger.info("request url=" + url + ", method=" + methodName);
+                logger.info("request url=" + url + ", method=" + methodName + " ,contentType=" + contentType);
             }
             else {
-                logger.info("request url=" + url + ", method=" + methodName + ", param: " + data);
+                logger.info("request url=" + url + ", method=" + methodName + " ,contentType=" + contentType + ", param: " + data);
             }
 
         }

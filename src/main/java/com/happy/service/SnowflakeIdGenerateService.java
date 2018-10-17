@@ -1,13 +1,17 @@
-package com.happy.utils;
+package com.happy.service;
 
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 /**
- * @author 赵润泽
+ * @author
  * @since 1.8
  * @date 2018/3/12
- * @see https://gitee.com/Chris_Evans/boen_family.git
  */
-public class SnowflakeIdGenerateUtil {
+
+@Service
+public class SnowflakeIdGenerateService {
 
     // ==============================Fields===========================================
 
@@ -15,9 +19,11 @@ public class SnowflakeIdGenerateUtil {
     private final long workerIdBits = 5L;
 
     /** 工作机器ID(0~31) */
+    @Value("${Snowflake.workerId}")
     private long workerId;
 
     /** 数据中心ID(0~31) */
+    @Value("${Snowflake.dataCenterId}")
     private long dataCenterId;
 
     /** 毫秒内序列(0~4095) */
@@ -29,10 +35,8 @@ public class SnowflakeIdGenerateUtil {
     //==============================Constructors=====================================
     /**
      * 构造函数
-     * @param workerId 工作ID (0~31)
-     * @param datacenterId 数据中心ID (0~31)
      */
-    public SnowflakeIdGenerateUtil(long workerId, long dataCenterId) {
+    public SnowflakeIdGenerateService() {
         /* 支持的最大机器id，结果是31 (这个移位算法可以很快的计算出几位二进制数所能表示的最大十进制数) */
         long maxWorkerId = ~(-1L << workerIdBits);
         if (workerId > maxWorkerId || workerId < 0) {
@@ -45,8 +49,6 @@ public class SnowflakeIdGenerateUtil {
         if (dataCenterId > maxDataCenterId || dataCenterId < 0) {
             throw new IllegalArgumentException(String.format("datacenter Id can't be greater than %d or less than 0", maxDataCenterId));
         }
-        this.workerId = workerId;
-        this.dataCenterId = dataCenterId;
     }
 
     // ==============================Methods==========================================

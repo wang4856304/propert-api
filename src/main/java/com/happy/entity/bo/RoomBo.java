@@ -23,4 +23,5 @@ public class RoomBo {
     private String unitId;
     private String layerId;
     private String ownerName;
+    private int isDefault;
 }

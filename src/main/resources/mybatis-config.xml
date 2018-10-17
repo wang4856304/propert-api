@@ -12,6 +12,7 @@
         <typeAlias type="com.happy.entity.po.UnitPo" alias="unitPo"/>
         <typeAlias type="com.happy.entity.po.FloorPo" alias="floorPo"/>
         <typeAlias type="com.happy.entity.po.CommunityPo" alias="communityPo"/>
+        <typeAlias type="com.happy.entity.bo.SqlTestBo" alias="sqlTestBo"/>
     </typeAliases>
 
 
